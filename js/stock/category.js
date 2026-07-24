@@ -1,0 +1,1 @@
+$('catBtn').onclick=()=>{cats=[];let t=$('catPaste').value.trim();if(t)t.split(/\r?\n/).forEach(l=>{let p=l.split(/\t|,/);cats.push({'Material No.':N(p[0]),Description:N(p[1]),Category:N(p.slice(2).join(' '))})});$('catPaste').value='';refresh();save();toast(cats.length+' categories saved')};

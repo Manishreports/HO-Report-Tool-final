@@ -1,0 +1,1 @@
+$('mpBtn').onclick=()=>{mpending=[];let t=$('mpPaste').value.trim();if(t)t.split(/\r?\n/).forEach(x=>{let v=N(x);if(v)mpending.push(v)});$('mpPaste').value='';refresh();toast(mpending.length+' manual pending')};

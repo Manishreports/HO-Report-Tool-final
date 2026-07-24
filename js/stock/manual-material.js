@@ -1,0 +1,1 @@
+$('addMan').onclick=()=>{manual.push({Plant:'','Storage Location':'',Material:'','Material Description':'',Unrestricted:'0','Transit and Transfer':'',Batch:''});drawEdit('manTable',SC,manual,()=>{drawEdit('manTable',SC,manual,()=>{});refresh();save()});refresh();save()};$('saveMan').onclick=()=>{save();toast('Manual material saved')};

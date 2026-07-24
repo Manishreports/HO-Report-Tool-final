@@ -1,0 +1,1 @@
+$('rBtn').onclick=()=>{raipur=[];let t=$('rPaste').value.trim();if(t)t.split(/\r?\n/).forEach(l=>{let p=l.split(/\t|,/);raipur.push({Plant:N(p[0]),'Material No.':N(p[1]),Description:N(p[2]),Qty:Q(p[3])})});$('rPaste').value='';drawRO('rTable',['Plant','Material No.','Description','Qty'],raipur);refresh();save();toast(raipur.length+' Raipur rows')};

@@ -1,0 +1,2 @@
+$('bsBtn').onclick=()=>{let t=$('bsPaste').value.trim();if(t)t.split(/\r?\n/).forEach(x=>{let v=N(x);if(v&&!bsto.includes(v))bsto.push(v)});$('bsPaste').value='';drawBsto();refresh();save()};
+function drawBsto(){let b=$('bsTable').querySelector('tbody');b.innerHTML='';bsto.forEach((v,i)=>{let tr=document.createElement('tr'),td=document.createElement('td');td.textContent=v;tr.appendChild(td);tr.appendChild(delbtn(()=>{bsto.splice(i,1);drawBsto();refresh();save()}));b.appendChild(tr)})}

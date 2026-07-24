@@ -1,0 +1,2 @@
+$('genHo').onclick=genHo;$('downHo').onclick=download;
+function genHo(){let rm=new Map(remarks.map(r=>[K(r),N(r.Remarks)])),bl=new Set(mblocks.map(r=>N(r.Material)).filter(Boolean)),u=[];[...stock,...manual].forEach(r=>{if(bl.has(N(r.Material)))return;let z=N(rm.get(K(r)));if(!z||z.toLowerCase()==='delete')return;u.push({...r,Remarks:z,U:Q(r.Unrestricted)})});pivot(u);main();signature();finals();drawReport();$('hoInfo').textContent=`${Math.max(pr.length-1,0)} materials • ${u.length} rows used`;toast('HO Report ready')}
