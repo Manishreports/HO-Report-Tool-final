@@ -1,0 +1,4 @@
+$('totalStockBtn').onclick=()=>$('totalStockFile').click();
+$('totalStockFile').onchange=e=>{let f=e.target.files[0];if(!f)return;let R=new FileReader();R.onload=x=>{try{let wb=XLSX.read(new Uint8Array(x.target.result),{type:'array'}),ws=wb.Sheets[wb.SheetNames[0]];totalStockRows=XLSX.utils.sheet_to_json(ws,{defval:''});totalStockHeaders=totalStockRows.length?Object.keys(totalStockRows[0]):[];$('totalStockInfo').textContent=`${totalStockRows.length} rows pulled. Processing logic under development.`;drawTotalStock();refresh();toast('Total Stock data loaded')}catch(e){toast('Total Stock file read nahi hui')}};R.readAsArrayBuffer(f)};
+function drawTotalStock(){drawPrev('totalStockTable',totalStockHeaders,totalStockRows,limitValue('totalStockLimit'))}
+$('totalStockLimit').onchange=drawTotalStock;
