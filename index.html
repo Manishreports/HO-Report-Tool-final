@@ -1,59 +1,127 @@
-<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HO Report Tool V7</title>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<link rel="stylesheet" href="css/theme.css"></head><body>
-<div class="app"><aside class="side">
-<div class="brand">
-    <div class="mark">MP</div>
-
-    <div>
-        <b>HO Report Tool</b>
-
-        <small>Manish Pandey</small>
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HO Report Tool - Manish Pandey</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="mark">MP</div>
+      <div><b>HO Report Tool</b><small>Manish Pandey</small></div>
     </div>
+
+    <div class="label">WORKSPACE</div>
+    <button class="nav active" data-p="overview">System Overview</button>
+    <button class="nav" data-p="reports-dashboard">Reports Dashboard</button>
+
+    <div class="label">CORE PENDING</div>
+    <button class="nav" data-p="plan">Plan File Upload</button>
+    <button class="nav" data-p="allowed-locations">Allowed Locations</button>
+    <button class="nav" data-p="raipur">Raipur</button>
+    <button class="nav" data-p="mpending">Manual Pending</button>
+    <button class="nav" data-p="bsto">Block STO</button>
+    <button class="nav" data-p="core">Core Pending Report</button>
+
+    <div class="label">HO STOCK</div>
+    <button class="nav" data-p="stock">Raw Stock Upload</button>
+    <button class="nav" data-p="remarks">Remarks</button>
+    <button class="nav" data-p="category">Category Update</button>
+    <button class="nav" data-p="manual">Manual Material Add</button>
+    <button class="nav" data-p="mblock">Material Block</button>
+    <button class="nav" data-p="setup">Main Sheet Setup</button>
+    <button class="nav" data-p="planning">Planning Database</button>
+    <button class="nav" data-p="horeport">HO Stock Report</button>
+
+    <div class="label">TOTAL STOCK WORKING</div>
+    <button class="nav" data-p="total-stock">Total Stock Upload</button>
+    <button class="nav" data-p="total-stock-preview">Total Stock Preview</button>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div><h1 id="title">System Overview</h1><p id="sub">HO reporting workspace</p></div>
+      <span class="pill">Manish Pandey</span>
+    </header>
+
+    <section id="overview" class="page active">
+      <div class="hero"><small>REPORTING CONTROL CENTER</small><h2>Fast stock, pending and planning reports</h2></div>
+      <div class="metrics">
+        <div class="metric"><span>Raw Stock Rows</span><strong id="dStock">0</strong></div>
+        <div class="metric"><span>Plan Rows</span><strong id="dPlan">0</strong></div>
+        <div class="metric"><span>Pending STO</span><strong id="dSto">0</strong></div>
+        <div class="metric"><span>Planning Records</span><strong id="dPlanning">0</strong></div>
+        <div class="metric warn"><span>Remarks Pending</span><strong id="dRem">0</strong></div>
+        <div class="metric"><span>Blocked STO</span><strong id="dBlock">0</strong></div>
+      </div>
+      <div class="panel"><div class="head"><h3>Status & Activity</h3><span id="stockStatus" class="pill">Ready</span></div><div id="log" class="activity"><div>Tool started.</div></div></div>
+    </section>
+
+    <section id="reports-dashboard" class="page">
+      <div class="panel empty-state"><h3>Reports Dashboard</h3><p>Yahan future me 10-12 report dashboards add honge.</p></div>
+    </section>
+
+    <section id="plan" class="page">
+      <div class="metrics">
+        <div class="metric"><span>Plan Rows</span><strong id="pRows">0</strong></div><div class="metric"><span>Core Pending Rows</span><strong id="cRows">0</strong></div><div class="metric"><span>Pending STO</span><strong id="cSto">0</strong></div><div class="metric"><span>Raipur Rows</span><strong id="rCount">0</strong></div><div class="metric"><span>Manual Pending</span><strong id="mpCount">0</strong></div><div class="metric"><span>Block STO</span><strong id="bsCount">0</strong></div>
+      </div>
+      <div class="panel"><div class="head"><h3>Upload Plan File</h3></div><div class="drop"><input id="planFile" type="file" accept=".xlsx,.xls,.csv" hidden><button id="planBtn" class="btn primary">Choose Plan File</button></div><div class="progressbox"><div class="prow"><span id="ppText">Waiting...</span><b id="ppPct">0%</b></div><div class="track"><div id="ppBar"></div></div><small id="ppDet">Rows loaded: 0 | Pending: 0</small></div></div>
+      <div class="panel"><div class="head"><h3>Plan Preview</h3><div class="table-controls">Show <select id="planPreviewLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select></div></div><div class="tablewrap compact"><table id="planTable"><thead></thead><tbody></tbody></table></div></div>
+    </section>
+
+    <section id="allowed-locations" class="page"><div class="panel"><div class="head"><div><h3>Allowed Locations</h3><p>Sirf yahi Location values Core Pending me process hongi.</p></div><div class="rec">Records: <b id="allowedLocationCount">0</b></div></div><div class="toolbar"><input id="allowedLocationInput" class="inline-input" placeholder="Location e.g. MAIN"><button id="addAllowedLocation" class="btn primary">Add Location</button></div><div class="tablewrap compact"><table id="allowedLocationTable"><thead><tr><th>Location</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
+
+    <section id="raipur" class="page"><div class="panel"><div class="head"><h3>Raipur</h3><div class="rec">Records: <b id="rRecords">0</b></div></div><textarea id="rPaste" placeholder="Plant&#9;Material No.&#9;Description&#9;Qty"></textarea><button id="rBtn" class="btn primary">Replace Raipur Data</button><div class="tablewrap compact"><table id="rTable"><thead><tr><th>Plant</th><th>Material No.</th><th>Description</th><th>Qty</th></tr></thead><tbody></tbody></table></div></div></section>
+
+    <section id="mpending" class="page"><div class="panel"><div class="head"><h3>Manual Pending</h3><div class="rec">Records: <b id="mpRecords">0</b></div></div><textarea id="mpPaste" placeholder="STO Number"></textarea><button id="mpBtn" class="btn primary">Replace Manual Pending</button></div></section>
+
+    <section id="bsto" class="page"><div class="panel"><div class="head"><h3>Block STO</h3><div class="rec">Records: <b id="bsRecords">0</b></div></div><textarea id="bsPaste" placeholder="STO Number"></textarea><button id="bsBtn" class="btn primary">Add Block STO</button><div class="tablewrap compact"><table id="bsTable"><thead><tr><th>STO Number</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
+
+    <section id="core" class="page">
+      <div id="coreSummary" class="dynamic-metrics"></div>
+      <div class="panel"><div class="head"><h3>Core Pending Report</h3><div class="table-controls">Show <select id="coreLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select></div></div><div class="toolbar"><button id="buildCore" class="btn primary">Build Core Pending</button><button id="sendPlan" class="btn success">Send Data to Plan</button></div><div id="coreInfo" class="notice">Report not built.</div><div class="tablewrap compact"><table id="coreTable"><thead></thead><tbody></tbody></table></div></div>
+    </section>
+
+    <section id="stock" class="page">
+      <div class="metrics"><div class="metric"><span>Raw Rows</span><strong id="sRaw">0</strong></div><div class="metric"><span>Manual Rows</span><strong id="sManual">0</strong></div><div class="metric"><span>Working Rows</span><strong id="sWork">0</strong></div><div class="metric warn"><span>Remarks Pending</span><strong id="sRem">0</strong></div></div>
+      <div class="panel"><div class="head"><h3>Upload Raw Stock Excel</h3></div><div class="drop"><input id="stockFile" type="file" accept=".xlsx,.xls,.csv" hidden><button id="stockBtn" class="btn primary">Choose Excel File</button><p>.xlsx / .xls / .csv</p></div><div class="progressbox"><div class="prow"><span id="spText">Waiting...</span><b id="spPct">0%</b></div><div class="track"><div id="spBar"></div></div><small id="spDet">Rows loaded: 0 | Pending: 0</small></div></div>
+      <div class="panel"><div class="head"><div><h3>Raw Preview</h3></div><div class="table-controls">Show <select id="stockPreviewLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select><button id="clearStock" class="btn danger">Clear Raw</button></div></div><div class="tablewrap compact"><table id="stockTable"><thead></thead><tbody></tbody></table></div></div>
+    </section>
+
+    <section id="remarks" class="page"><div class="panel"><div class="head"><div><h3>Remarks</h3><p>Plant + Storage Location. `delete` excludes data.</p></div><div class="rec">Records: <b id="remCount">0</b> | Pending: <b id="remPend">0</b></div></div><div class="toolbar"><button id="syncRem" class="btn primary">Sync</button><button id="saveRem" class="btn success">Save Remarks</button></div><div id="remNotice" class="notice hidden"></div><div class="tablewrap compact"><table id="remTable"><thead><tr><th>Plant</th><th>Storage Location</th><th>Remarks</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
+
+    <section id="category" class="page"><div class="panel"><div class="head"><h3>Category Update</h3><div class="rec">Records: <b id="catCount">0</b></div></div><textarea id="catPaste" placeholder="Material No.&#9;Description&#9;Category"></textarea><button id="catBtn" class="btn primary">Replace Category Data</button><div id="catNotice" class="notice hidden"></div></div></section>
+
+    <section id="manual" class="page"><div class="panel"><div class="head"><h3>Manual Material Add</h3><div class="rec">Records: <b id="manCount">0</b></div></div><div class="toolbar"><button id="addMan" class="btn primary">Add Row</button><button id="saveMan" class="btn success">Save</button></div><div class="tablewrap compact"><table id="manTable"><thead></thead><tbody></tbody></table></div></div></section>
+
+    <section id="mblock" class="page"><div class="panel"><div class="head"><h3>Material Block</h3><div class="rec">Records: <b id="mbCount">0</b></div></div><div class="toolbar"><button id="addMb" class="btn primary">Add Row</button><button id="saveMb" class="btn success">Save</button></div><div class="tablewrap compact"><table id="mbTable"><thead><tr><th>Material</th><th>Material Description</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
+
+    <section id="setup" class="page"><div class="panel"><div class="head"><div><h3>Main Sheet Setup</h3><p>Dynamic order aur plan chain</p></div><div class="rec">Rows: <b id="setupCount">0</b></div></div><button id="addSetup" class="btn primary">Add Row</button><div class="tablewrap compact"><table id="setupTable"><thead><tr><th>Order</th><th>Remarks Name</th><th>Show</th><th>Plan Source</th><th>Previous Pending Source</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
+
+    <section id="planning" class="page"><div id="planningSummary" class="dynamic-metrics"></div><div class="panel"><div class="head"><h3>Planning Database</h3><div class="table-controls"><span class="rec">Records: <b id="planDbCount">0</b></span>Show <select id="planningLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select></div></div><div class="tablewrap compact"><table id="planningTable"><thead><tr><th>Plan Name</th><th>Material No.</th><th>Description</th><th>Qty</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
+
+    <section id="horeport" class="page"><div class="panel"><div class="head"><h3>HO Stock Report</h3><span class="pill">4 Sheets</span></div><div class="toolbar"><button id="genHo" class="btn primary">Generate Report</button><button id="downHo" class="btn success">Download Excel</button></div><div id="hoInfo" class="notice">Report not generated.</div><div class="tabs"><button class="tab active" data-t="piv">Pivot Sheet</button><button class="tab" data-t="mainr">Main Sheet</button><button class="tab" data-t="sigr">Signature</button><button class="tab" data-t="finr">Final</button></div>
+      <div id="piv" class="tabp active"><div class="report-control">Show <select id="pivotLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select></div><div class="tablewrap compact"><table id="pivTable"><thead></thead><tbody></tbody></table></div></div>
+      <div id="mainr" class="tabp"><div class="report-control">Show <select id="mainLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select></div><div class="tablewrap compact"><table id="mainTable"><thead></thead><tbody></tbody></table></div></div>
+      <div id="sigr" class="tabp"><div class="report-control">Show <select id="signatureLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select></div><div class="tablewrap compact"><table id="sigTable"><thead></thead><tbody></tbody></table></div></div>
+      <div id="finr" class="tabp"><div class="report-control">Show <select id="finalLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select></div><div class="tablewrap compact"><table id="finTable"><thead></thead><tbody></tbody></table></div></div>
+    </div></section>
+
+    <section id="total-stock" class="page"><div class="metrics"><div class="metric"><span>Total Stock Rows</span><strong id="totalStockCount">0</strong></div><div class="metric"><span>Columns</span><strong id="totalStockColumns">0</strong></div></div><div class="panel"><div class="head"><div><h3>Total Stock Upload</h3><p>Abhi sirf data pull hoga. Logic baad me add hoga.</p></div></div><div class="drop"><input id="totalStockFile" type="file" accept=".xlsx,.xls,.csv" hidden><button id="totalStockBtn" class="btn primary">Choose Total Stock File</button></div><div id="totalStockInfo" class="notice">No file uploaded.</div></div></section>
+
+    <section id="total-stock-preview" class="page"><div class="panel"><div class="head"><h3>Total Stock Preview</h3><div class="table-controls">Show <select id="totalStockLimit" class="limit-select"><option>5</option><option>10</option><option>50</option></select></div></div><div class="tablewrap compact"><table id="totalStockTable"><thead></thead><tbody></tbody></table></div></div></section>
+  </main>
 </div>
-<div class="label">WORKSPACE</div><button class="nav active" data-p="dash">Dashboard</button>
-<div class="label">HO STOCK ENGINE</div>
-<button class="nav" data-p="stock">Raw Stock Upload</button><button class="nav" data-p="remarks">Remarks</button><button class="nav" data-p="category">Category Update</button><button class="nav" data-p="manual">Manual Material Add</button><button class="nav" data-p="mblock">Material Block</button><button class="nav" data-p="setup">Main Sheet Setup</button><button class="nav" data-p="planning">Planning Database</button><button class="nav" data-p="horeport">HO Stock Report</button>
-<div class="label">CORE PENDING ENGINE</div>
-<button class="nav" data-p="plan">Plan File Upload</button><button class="nav" data-p="raipur">Raipur</button><button class="nav" data-p="mpending">Manual Pending</button><button class="nav" data-p="bsto">Block STO</button><button class="nav" data-p="core">Core Pending Report</button>
-</aside><main class="main">
-<header class="top"><div><h1 id="title">Dashboard</h1><p id="sub">HO reporting workspace</p></div><span class="pill">Portable • Free • No Install</span></header>
 
-<section id="dash" class="page active"><div class="hero"><small>REPORTING CONTROL CENTER</small><h2>Fast stock, pending and planning reports</h2><p>Do alag engines, ek integrated planning database.</p></div><div class="metrics">
-<div class="metric"><span>Raw Stock Rows</span><strong id="dStock">0</strong></div><div class="metric"><span>Plan Rows</span><strong id="dPlan">0</strong></div><div class="metric"><span>Pending STO</span><strong id="dSto">0</strong></div><div class="metric"><span>Planning Records</span><strong id="dPlanning">0</strong></div><div class="metric warn"><span>Remarks Pending</span><strong id="dRem">0</strong></div><div class="metric"><span>Blocked STO</span><strong id="dBlock">0</strong></div></div></section>
-
-<section id="stock" class="page"><div class="metrics"><div class="metric"><span>Raw Rows</span><strong id="sRaw">0</strong></div><div class="metric"><span>Manual Rows</span><strong id="sManual">0</strong></div><div class="metric"><span>Working Rows</span><strong id="sWork">0</strong></div><div class="metric warn"><span>Remarks Pending</span><strong id="sRem">0</strong></div></div>
-<div class="two"><div class="panel"><div class="head"><h3>Upload Raw Stock Excel</h3></div><div class="drop"><input id="stockFile" type="file" accept=".xlsx,.xls,.csv" hidden><button id="stockBtn" class="btn primary">Choose Excel File</button><p>.xlsx / .xls / .csv</p></div><div class="progressbox"><div class="prow"><span id="spText">Waiting...</span><b id="spPct">0%</b></div><div class="track"><div id="spBar"></div></div><small id="spDet">Rows loaded: 0 | Pending: 0</small></div></div><div class="panel"><div class="head"><h3>Status</h3><span id="stockStatus" class="pill">Ready</span></div><div id="log" class="activity"><div>Tool started.</div></div></div></div><div class="panel"><div class="head"><div><h3>Raw Preview</h3><p>First 50 rows only</p></div><button id="clearStock" class="btn danger">Clear Raw</button></div><div class="tablewrap"><table id="stockTable"><thead></thead><tbody></tbody></table></div></div></section>
-
-<section id="remarks" class="page"><div class="panel"><div class="head"><div><h3>Remarks</h3><p>Plant + Storage Location. `delete` excludes data.</p></div><div class="rec">Records: <b id="remCount">0</b> | Pending: <b id="remPend">0</b></div></div><div class="toolbar"><button id="syncRem" class="btn primary">Sync</button><button id="saveRem" class="btn success">Save Remarks</button></div><div id="remNotice" class="notice hidden"></div><div class="tablewrap"><table id="remTable"><thead><tr><th>Plant</th><th>Storage Location</th><th>Remarks</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
-
-<section id="category" class="page"><div class="panel"><div class="head"><h3>Category Update</h3><div class="rec">Records: <b id="catCount">0</b></div></div><textarea id="catPaste" placeholder="Material No.&#9;Description&#9;Category"></textarea><button id="catBtn" class="btn primary">Replace Category Data</button><div id="catNotice" class="notice hidden"></div></div></section>
-
-<section id="manual" class="page"><div class="panel"><div class="head"><h3>Manual Material Add</h3><div class="rec">Records: <b id="manCount">0</b></div></div><div class="toolbar"><button id="addMan" class="btn primary">Add Row</button><button id="saveMan" class="btn success">Save</button></div><div class="tablewrap"><table id="manTable"><thead></thead><tbody></tbody></table></div></div></section>
-
-<section id="mblock" class="page"><div class="panel"><div class="head"><h3>Material Block</h3><div class="rec">Records: <b id="mbCount">0</b></div></div><div class="toolbar"><button id="addMb" class="btn primary">Add Row</button><button id="saveMb" class="btn success">Save</button></div><div class="tablewrap"><table id="mbTable"><thead><tr><th>Material</th><th>Material Description</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
-
-<section id="setup" class="page"><div class="panel"><div class="head"><div><h3>Main Sheet Setup</h3><p>Dynamic order aur plan chain</p></div><div class="rec">Rows: <b id="setupCount">0</b></div></div><button id="addSetup" class="btn primary">Add Row</button><div class="tablewrap"><table id="setupTable"><thead><tr><th>Order</th><th>Remarks Name</th><th>Show</th><th>Plan Source</th><th>Previous Pending Source</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
-
-<section id="planning" class="page"><div class="panel"><div class="head"><h3>Planning Database</h3><div class="rec">Records: <b id="planDbCount">0</b></div></div><div class="tablewrap"><table id="planningTable"><thead><tr><th>Plan Name</th><th>Material No.</th><th>Description</th><th>Qty</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
-
-<section id="horeport" class="page"><div class="panel"><div class="head"><h3>HO Stock Report</h3><span class="pill">4 Sheets</span></div><div class="toolbar"><button id="genHo" class="btn primary">Generate Report</button><button id="downHo" class="btn success">Download Excel</button></div><div id="hoInfo" class="notice">Report not generated.</div><div class="tabs"><button class="tab active" data-t="piv">Pivot Sheet</button><button class="tab" data-t="mainr">Main Sheet</button><button class="tab" data-t="sigr">Signature</button><button class="tab" data-t="finr">Final</button></div><div id="piv" class="tabp active"><div class="tablewrap"><table id="pivTable"><thead></thead><tbody></tbody></table></div></div><div id="mainr" class="tabp"><div class="tablewrap"><table id="mainTable"><thead></thead><tbody></tbody></table></div></div><div id="sigr" class="tabp"><div class="tablewrap"><table id="sigTable"><thead></thead><tbody></tbody></table></div></div><div id="finr" class="tabp"><div class="tablewrap"><table id="finTable"><thead></thead><tbody></tbody></table></div></div></div></section>
-
-<section id="plan" class="page"><div class="metrics"><div class="metric"><span>Plan Rows</span><strong id="pRows">0</strong></div><div class="metric"><span>Core Pending Rows</span><strong id="cRows">0</strong></div><div class="metric"><span>Pending STO</span><strong id="cSto">0</strong></div><div class="metric"><span>Raipur Rows</span><strong id="rCount">0</strong></div><div class="metric"><span>Manual Pending</span><strong id="mpCount">0</strong></div><div class="metric"><span>Block STO</span><strong id="bsCount">0</strong></div></div><div class="panel"><div class="head"><h3>Upload Plan File</h3></div><div class="drop"><input id="planFile" type="file" accept=".xlsx,.xls,.csv" hidden><button id="planBtn" class="btn primary">Choose Plan File</button></div><div class="progressbox"><div class="prow"><span id="ppText">Waiting...</span><b id="ppPct">0%</b></div><div class="track"><div id="ppBar"></div></div><small id="ppDet">Rows loaded: 0 | Pending: 0</small></div></div><div class="panel"><div class="head"><h3>Plan Preview</h3></div><div class="tablewrap"><table id="planTable"><thead></thead><tbody></tbody></table></div></div></section>
-
-<section id="raipur" class="page"><div class="panel"><div class="head"><h3>Raipur</h3><div class="rec">Records: <b id="rRecords">0</b></div></div><textarea id="rPaste" placeholder="Plant&#9;Material No.&#9;Description&#9;Qty"></textarea><button id="rBtn" class="btn primary">Replace Raipur Data</button><div class="tablewrap"><table id="rTable"><thead><tr><th>Plant</th><th>Material No.</th><th>Description</th><th>Qty</th></tr></thead><tbody></tbody></table></div></div></section>
-
-<section id="mpending" class="page"><div class="panel"><div class="head"><h3>Manual Pending</h3><div class="rec">Records: <b id="mpRecords">0</b></div></div><textarea id="mpPaste" placeholder="STO Number"></textarea><button id="mpBtn" class="btn primary">Replace Manual Pending</button></div></section>
-
-<section id="bsto" class="page"><div class="panel"><div class="head"><h3>Block STO</h3><div class="rec">Records: <b id="bsRecords">0</b></div></div><textarea id="bsPaste" placeholder="STO Number"></textarea><button id="bsBtn" class="btn primary">Add Block STO</button><div class="tablewrap"><table id="bsTable"><thead><tr><th>STO Number</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></section>
-
-<section id="core" class="page"><div class="panel"><div class="head"><h3>Core Pending Report</h3><span class="pill">8 Columns</span></div><div class="toolbar"><button id="buildCore" class="btn primary">Build Core Pending</button><button id="sendPlan" class="btn success">Send Data to Plan</button></div><div id="coreInfo" class="notice">Report not built.</div><div class="tablewrap"><table id="coreTable"><thead></thead><tbody></tbody></table></div></div></section>
-</main></div>
 <div id="modal" class="modal hidden"><div class="mcard"><div class="mhead"><h3 id="mTitle">Input Required</h3><button id="mX" class="btn secondary">×</button></div><div id="mBody"></div><div class="mactions"><button id="mCancel" class="btn secondary">Cancel</button><button id="mSave" class="btn primary">Save</button></div></div></div><div id="toast" class="toast hidden"></div>
 
 <script src="js/core/state.js"></script>
 <script src="js/ui/navigation.js"></script>
+<script src="js/ui/table-pagination.js"></script>
 <script src="js/stock/raw-stock.js"></script>
 <script src="js/stock/remarks.js"></script>
 <script src="js/stock/category.js"></script>
@@ -61,10 +129,12 @@
 <script src="js/stock/material-block.js"></script>
 <script src="js/stock/main-setup.js"></script>
 <script src="js/planning/planning-database.js"></script>
+<script src="js/pending/allowed-locations.js"></script>
 <script src="js/pending/raipur.js"></script>
 <script src="js/pending/manual-pending.js"></script>
 <script src="js/pending/block-sto.js"></script>
 <script src="js/pending/core-pending.js"></script>
+<script src="js/total-stock/total-stock.js"></script>
 <script src="js/reports/report-controller.js"></script>
 <script src="js/reports/pivot-report.js"></script>
 <script src="js/reports/main-report.js"></script>
@@ -72,4 +142,5 @@
 <script src="js/reports/final-report.js"></script>
 <script src="js/reports/report-renderer.js"></script>
 <script src="js/core/app.js"></script>
-</body></html>
+</body>
+</html>

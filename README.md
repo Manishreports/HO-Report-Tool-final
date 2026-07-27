@@ -1,23 +1,25 @@
-# HO Report Tool - Modular Base V8
+# HO Report Tool - Team Release
 
-Browser-based HO Stock and Core Pending reporting tool.
+Designed for Manish Pandey.
 
-## Run
+## Main updates
 
-Open `index.html` in Chrome or Edge. Internet is currently required for the SheetJS CDN used for Excel reading/writing.
+- Independent sidebar and content scrolling
+- CORE PENDING first, HO STOCK second, TOTAL STOCK WORKING third
+- System Overview and Reports Dashboard
+- Manish Pandey branding and watermark on every page
+- Preview dropdowns: 5 / 10 / 50, default 5
+- Compact table spacing
+- Grand Total always visible in Pivot, Main and Signature previews
+- Dynamic plan summary cards in Planning Database and Core Pending
+- Allowed Locations master: MAIN, AMBL, DEHR, ROUP by default
+- Any Plan row whose Location is not allowed is ignored
+- Isolated STO Issue Qty rule: any non-zero Issue Qty removes the full STO
+- Indian comma quantity support, e.g. 2,87,032
+- Total Stock Working upload and preview placeholder
+- Excel report download enabled
 
-## Module map
+## GitHub update
 
-- `js/reports/pivot-report.js` - Pivot calculation only
-- `js/reports/main-report.js` - Main Sheet calculation only
-- `js/reports/signature-report.js` - Signature calculation only
-- `js/reports/final-report.js` - Final calculation only
-- `js/pending/core-pending.js` - Core Pending workflow
-- `js/stock/remarks.js` - Remarks helper
-- `js/stock/category.js` - Category helper
-- `js/stock/manual-material.js` - Manual material helper
-- `js/stock/material-block.js` - Material block helper
-
-## GitHub
-
-Upload the extracted folder contents, not the ZIP file.
+Replace the repository contents with this extracted package and commit to `main`.
+After GitHub Pages deploys, use Ctrl+Shift+R.
