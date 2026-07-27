@@ -1,5 +1,13 @@
-
-const SC=['Plant','Storage Location','Material','Material Description','Unrestricted','Transit and Transfer','Batch'],PC=['SPlt','Plant','Plant Name','Location','Material No.','Description','STO Qty','STO Number','STO Date','Issue Qty','Issue_Date'],CC=['SPlt','Plant','Plant Name','Location','Material No.','Description','STO Qty','STO Number'];
+const SC=['Plant','Storage Location','Material','Material Description','Unrestricted','Transit and Transfer','Batch'];
+const PC=['SPlt','Plant','Plant Name','Location','Material No.','Description','STO Qty','STO Number','STO Date','Issue Qty','Issue_Date'];
+const CC=['SPlt','Plant','Plant Name','Location','Material No.','Description','STO Qty','STO Number'];
 let stock=[],plan=[],manual=[],remarks=[],cats=[],mblocks=[],raipur=[],mpending=[],bsto=[],core=[],planning=[];
 let setup=[{Order:1,Remarks:'Bakal',Show:'Yes',PlanSource:'Planning Database',Previous:''},{Order:2,Remarks:'DOFL',Show:'Yes',PlanSource:'Previous Negative Pending',Previous:'Bakal Pending'},{Order:3,Remarks:'9916',Show:'Yes',PlanSource:'Previous Negative Pending',Previous:'DOFL Pending'},{Order:4,Remarks:'Bakal Ecom',Show:'Yes',PlanSource:'Previous Negative Pending',Previous:'9916 Pending'},{Order:5,Remarks:'Tolagaon',Show:'Yes',PlanSource:'Planning Database',Previous:''},{Order:6,Remarks:'9918',Show:'Yes',PlanSource:'Previous Negative Pending',Previous:'Tolagaon Pending'},{Order:7,Remarks:'9919',Show:'Yes',PlanSource:'Previous Negative Pending',Previous:'9918 Pending'},{Order:8,Remarks:'Tolagaon Ecom',Show:'Yes',PlanSource:'Previous Negative Pending',Previous:'9919 Pending'}];
-let ph=[],pr=[],mh=[],mr=[],sh=[],sr=[],fh=[],fr=[];const $=x=>document.getElementById(x),N=v=>v==null?'':String(v).trim(),Q=v=>{let n=Number(v);return Number.isFinite(n)?n:0},K=r=>N(r.Plant)+'||'+N(r['Storage Location']);
+let ph=[],pr=[],mh=[],mr=[],sh=[],sr=[],fh=[],fr=[];
+const $=id=>document.getElementById(id);
+const N=value=>value==null?'':String(value).replace(/\u00A0/g,' ').trim().replace(/\s+/g,' ');
+const Q=value=>{if(typeof value==='number')return Number.isFinite(value)?value:0;let text=N(value);if(!text)return 0;let neg=text.startsWith('(')&&text.endsWith(')');if(neg)text=text.slice(1,-1);text=text.replace(/,/g,'').replace(/\s/g,'').replace(/[₹$€£]/g,'').replace(/[^0-9.+-]/g,'');let parsed=Number(text);if(!Number.isFinite(parsed))return 0;return neg?-Math.abs(parsed):parsed};
+const NK=value=>N(value).toLowerCase();
+const canonicalRemark=value=>{const cleaned=N(value),key=cleaned.toLowerCase();const known={'bakal':'Bakal','dofl':'DOFL','9916':'9916','bakal ecom':'Bakal Ecom','tolagaon':'Tolagaon','9918':'9918','9919':'9919','tolagaon ecom':'Tolagaon Ecom','delete':'delete'};return known[key]||cleaned};
+const remarkKey=value=>NK(canonicalRemark(value));
+const K=row=>`${NK(row.Plant)}||${NK(row['Storage Location'])}`;
